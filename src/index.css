@@ -1,0 +1,111 @@
+body {
+  font-family: "DM Mono", monospace;
+  background-image: url(/bg.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: #1f1f24;
+  color: rgba(255, 255, 255, 0.5);
+  position: relative;
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+button {
+  padding: 0;
+}
+
+::selection {
+  background-color: rgb(110, 78, 242);
+  color: #fff;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #272730 inset;
+  -webkit-text-fill-color: #fff;
+}
+
+input:-webkit-autofill::first-line {
+  color: #fff;
+}
+
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #272730 inset;
+  -webkit-text-fill-color: #fff;
+}
+
+@media screen and (max-width: 767px) {
+  a,
+  p,
+  input,
+  button,
+  label {
+    font-size: 16px !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  a,
+  p,
+  input,
+  button,
+  label {
+    font-size: 14px !important;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  a,
+  p,
+  input,
+  button,
+  label {
+    font-size: 16px !important;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  a,
+  p,
+  input,
+  button,
+  label {
+    font-size: 18px !important;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  a,
+  p,
+  input,
+  button,
+  label {
+    font-size: 20px !important;
+  }
+}

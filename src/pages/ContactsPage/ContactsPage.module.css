@@ -1,0 +1,84 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.contactsWrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #3b413d;
+  border-radius: 8px;
+  background: #272730;
+  padding: 50px 18px 18px 18px;
+  width: 100%;
+  position: relative;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #3b413d;
+  border-radius: 8px;
+  background: #272730;
+  padding: 18px;
+  width: 100%;
+}
+
+.contactsWrapper::-webkit-scrollbar,
+.formWrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.contactsWrapper::-webkit-scrollbar-thumb,
+.formWrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+}
+
+.contactsWrapper::-webkit-scrollbar-thumb:hover,
+.formWrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #a8ff53;
+}
+
+.contactsWrapper::-webkit-scrollbar-corner,
+.formWrapper::-webkit-scrollbar-corner {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 768px) {
+  .formWrapper {
+    padding: 50px 32px;
+  }
+  .contactsWrapper {
+    padding: 50px 32px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    height: 100%;
+    flex: 1 1 auto;
+    overflow-y: hidden;
+  }
+  .formWrapper {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .contactsWrapper {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+@media screen and (min-width: 1366px) {
+  .wrapper {
+    grid-template-columns: 1fr 4fr;
+  }
+}
