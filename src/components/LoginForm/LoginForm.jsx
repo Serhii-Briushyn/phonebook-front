@@ -1,12 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { logIn } from "../../redux/auth/operations";
-import css from "./LoginForm.module.css";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { selectIsLoadingAuth } from "../../redux/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
+
+import { logIn } from "../../redux/auth/operations";
+import { selectIsLoading } from "../../redux/auth/selectors";
+
 import Loader from "../Loader/Loader";
+
+import css from "./LoginForm.module.css";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -19,7 +22,7 @@ const validationSchema = Yup.object({
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
-  const isLoadingAuth = useSelector(selectIsLoadingAuth);
+  const isLoading = useSelector(selectIsLoading);
   const initialValues = {
     email: "",
     password: "",
@@ -46,7 +49,7 @@ export const LoginForm = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {isLoadingAuth && <Loader />}
+      {isLoading && <Loader />}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

@@ -1,12 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { register } from "../../redux/auth/operations";
 import { motion } from "framer-motion";
-import css from "./RegistrationForm.module.css";
 import toast from "react-hot-toast";
-import { selectIsLoadingAuth } from "../../redux/auth/selectors";
+import { useDispatch, useSelector } from "react-redux";
+
+import { register } from "../../redux/auth/operations";
+import { selectIsLoading } from "../../redux/auth/selectors";
+
 import Loader from "../Loader/Loader";
+
+import css from "./RegistrationForm.module.css";
 
 const initialValues = {
   name: "",
@@ -26,7 +29,7 @@ const validationSchema = Yup.object({
 
 function RegistrationForm() {
   const dispatch = useDispatch();
-  const isLoadingAuth = useSelector(selectIsLoadingAuth);
+  const isLoading = useSelector(selectIsLoading);
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     dispatch(register(values))
@@ -49,7 +52,7 @@ function RegistrationForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {isLoadingAuth && <Loader />}
+      {isLoading && <Loader />}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

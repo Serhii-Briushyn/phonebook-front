@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
-import DocumentTitle from "../../components/DocumentTitle";
-import css from "./HomePage.module.css";
 import { TypeAnimation } from "react-type-animation";
+
+import DocumentTitle from "../../components/DocumentTitle";
+
+import css from "./HomePage.module.css";
 
 export default function HomePage() {
   return (

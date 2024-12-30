@@ -1,15 +1,18 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+
+import { fetchContacts } from "../../redux/contacts/operations";
+import { selectError, selectIsLoading } from "../../redux/contacts/selectors";
+
 import ContactForm from "../../components/ContactForm/ContactForm";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import ContactList from "../../components/ContactList/ContactList";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchContacts } from "../../redux/contacts/operations";
-import { selectError, selectIsLoading } from "../../redux/contacts/selectors";
-import css from "./ContactsPage.module.css";
-import toast from "react-hot-toast";
-import { motion } from "framer-motion";
 import Loader from "../../components/Loader/Loader";
 import DocumentTitle from "../../components/DocumentTitle";
+
+import css from "./ContactsPage.module.css";
 
 export default function ContactPage() {
   const dispatch = useDispatch();
@@ -18,11 +21,11 @@ export default function ContactPage() {
 
   useEffect(() => {
     dispatch(fetchContacts());
+  }, [dispatch]);
 
-    if (error) {
-      toast.error(error);
-    }
-  }, [dispatch, error]);
+  if (error) {
+    toast.error(error);
+  }
 
   return (
     <>

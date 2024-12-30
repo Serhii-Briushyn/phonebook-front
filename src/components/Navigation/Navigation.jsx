@@ -1,10 +1,12 @@
-import { NavLink } from "react-router-dom";
-import css from "./Navigation.module.css";
-import clsx from "clsx";
 import { useState } from "react";
-import { RiMenu2Fill, RiCloseFill } from "react-icons/ri";
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RiMenu2Fill, RiCloseFill } from "react-icons/ri";
+import clsx from "clsx";
+
 import { selectIsLoggedIn } from "../../redux/auth/selectors";
+
+import css from "./Navigation.module.css";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -1,27 +1,64 @@
-import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const goItApi = axios.create({
-  baseURL: "https://connections-api.goit.global/",
+  baseURL: "http://localhost:3000",
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-const setAuthHeader = (token) => {
-  goItApi.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
+goItApi.interceptors.request.use(
+  (request) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      request.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return request;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-const clearAuthHeader = () => {
-  goItApi.defaults.headers.common.Authorization = "";
-};
+goItApi.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const refreshResponse = await goItApi.post("/auth/refresh");
+
+        const { accessToken } = refreshResponse.data.data;
+
+        localStorage.setItem("accessToken", accessToken);
+
+        goItApi.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${accessToken}`;
+
+        return goItApi(originalRequest);
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        localStorage.removeItem("accessToken");
+        window.location.href = "/login";
+        return Promise.reject(refreshError);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const register = createAsyncThunk(
   "auth/register",
   async (credentials, thunkAPI) => {
     try {
-      const res = await goItApi.post("/users/signup", credentials);
-      setAuthHeader(res.data.token);
+      const res = await goItApi.post("/auth/register", credentials);
       return res.data;
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (error.response && error.response.status === 409) {
         return thunkAPI.rejectWithValue(
           "User with this email is already registered"
         );
@@ -35,8 +72,8 @@ export const logIn = createAsyncThunk(
   "auth/login",
   async (credentials, thunkAPI) => {
     try {
-      const res = await goItApi.post("/users/login", credentials);
-      setAuthHeader(res.data.token);
+      const res = await goItApi.post("/auth/login", credentials);
+      localStorage.setItem("accessToken", res.data.data.accessToken);
       return res.data;
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -49,30 +86,9 @@ export const logIn = createAsyncThunk(
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
-    await goItApi.post("/users/logout");
-    clearAuthHeader();
+    await goItApi.post("/auth/logout");
+    localStorage.removeItem("accessToken");
   } catch {
     return thunkAPI.rejectWithValue("Logout failed. Please try again.");
   }
 });
-
-export const refreshUser = createAsyncThunk(
-  "auth/refresh",
-  async (_, thunkAPI) => {
-    const state = thunkAPI.getState();
-    const persistedToken = state.auth.token;
-    if (persistedToken === null) {
-      return thunkAPI.rejectWithValue("No valid token found. Please log in.");
-    }
-
-    try {
-      setAuthHeader(persistedToken);
-      const res = await goItApi.get("/users/current");
-      return res.data;
-    } catch {
-      return thunkAPI.rejectWithValue(
-        "Failed to refresh user. Please log in again."
-      );
-    }
-  }
-);

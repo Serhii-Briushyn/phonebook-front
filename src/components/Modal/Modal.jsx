@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
-import css from "./Modal.module.css";
 import { motion, AnimatePresence } from "framer-motion";
+
+import css from "./Modal.module.css";
 
 function Modal({ contact, onConfirm, onCancel }) {
   const handleBackdropClick = (e) => {

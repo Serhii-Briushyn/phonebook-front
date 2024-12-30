@@ -1,11 +1,13 @@
 import ReactDOM from "react-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useDispatch } from "react-redux";
-import { updateContact } from "../../redux/contacts/operations";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import css from "./EditContact.module.css";
 import { motion, AnimatePresence } from "framer-motion";
+
+import { useDispatch } from "react-redux";
+import { updateContact } from "../../redux/contacts/operations";
+
+import css from "./EditContact.module.css";
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
@@ -23,7 +25,9 @@ function EditContact({ contact, onClose }) {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      await dispatch(updateContact({ id: contact.id, updatedContact: values }));
+      await dispatch(
+        updateContact({ contactId: contact._id, updatedContact: values })
+      );
       toast.success("Contact updated successfully!");
       resetForm();
       onClose();

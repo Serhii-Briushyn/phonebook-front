@@ -1,20 +1,23 @@
-import { FaRegTrashCan, FaRegUser } from "react-icons/fa6";
-import { deleteContact } from "../../redux/contacts/operations";
-import { useDispatch } from "react-redux";
-import css from "./Contact.module.css";
-import Modal from "../Modal/Modal";
 import { useState } from "react";
-import toast from "react-hot-toast";
-import {
-  clearCurrentContact,
-  setCurrentContact,
-} from "../../redux/contacts/slice";
+import { useDispatch } from "react-redux";
+import { FaRegTrashCan, FaRegUser } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { GoKebabHorizontal } from "react-icons/go";
 import { FiPhone } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
+import toast from "react-hot-toast";
+
+import { deleteContact } from "../../redux/contacts/operations";
+import {
+  clearCurrentContact,
+  setCurrentContact,
+} from "../../redux/contacts/slice";
 import { slideInFromLeft, slideInFromRight } from "../../motion/motion";
+
+import Modal from "../Modal/Modal";
 import EditContact from "../EditContact/EditContact";
+
+import css from "./Contact.module.css";
 
 function Contact({ contact, index, isOpen, toggleMenu }) {
   const dispatch = useDispatch();
@@ -27,7 +30,7 @@ function Contact({ contact, index, isOpen, toggleMenu }) {
 
   const confirmDelete = async () => {
     try {
-      await dispatch(deleteContact(contact.id));
+      await dispatch(deleteContact(contact._id));
       toast.success("Contact deleted successfully!");
       setShowModal(false);
       toggleMenu();

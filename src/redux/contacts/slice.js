@@ -1,4 +1,5 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+
 import {
   addContact,
   deleteContact,
@@ -12,7 +13,7 @@ const initialState = {
   currentContact: null,
   isLoading: false,
   isError: null,
-  sortBy: "name",
+  sorting: "name",
 };
 
 const contactsSlice = createSlice({
@@ -25,31 +26,31 @@ const contactsSlice = createSlice({
     clearCurrentContact: (state) => {
       state.currentContact = null;
     },
-    setSortBy: (state, action) => {
-      state.sortBy = action.payload;
+    setSorting: (state, action) => {
+      state.sorting = action.payload;
     },
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.items = action.payload;
+        state.items = action.payload.data.contacts;
       })
       .addCase(addContact.fulfilled, (state, action) => {
-        state.items.push(action.payload);
+        state.items.push(action.payload.data);
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         const index = state.items.findIndex(
-          (contact) => contact.id === action.payload
+          (contact) => contact._id === action.payload
         );
         state.items.splice(index, 1);
       })
       .addCase(updateContact.fulfilled, (state, action) => {
         const index = state.items.findIndex(
-          (contact) => contact.id === action.payload.id
+          (contact) => contact._id === action.payload.data._id
         );
         if (index !== -1) {
-          state.items[index] = action.payload;
+          state.items[index] = action.payload.data;
         }
       })
       .addCase(logout.fulfilled, (state) => {
@@ -96,5 +97,5 @@ const contactsSlice = createSlice({
 });
 
 export const contactsReducer = contactsSlice.reducer;
-export const { setCurrentContact, clearCurrentContact, setSortBy } =
+export const { setCurrentContact, clearCurrentContact, setSorting } =
   contactsSlice.actions;
